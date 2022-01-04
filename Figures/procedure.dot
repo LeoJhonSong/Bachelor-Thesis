@@ -1,0 +1,21 @@
+digraph G {
+  splines=spline
+  node [shape=box colorscheme=pastel19 style="filled" color=9]
+
+  l [label="land" fillcolor=1]
+  g [label="grasp" fillcolor=2]
+  c [label="cruise" fillcolor=4]
+  a [label="aim" fillcolor=5]
+
+  l -> l [label="not landed"]
+  l -> g [label="landed"]
+  g -> g [label="grasping"]
+  g -> c [label="target collected/no more targets in ROI/\ntime limit exceeded & no more chances"]
+  c -> l [label="time limit exceeded"]
+  c -> a [label="target detected"]
+  a -> l [label="not landed\nbut target lost"]
+  a -> g [label="landed"]
+
+  start [label="start" shape=diamond fillcolor=3]
+  start -> l
+}

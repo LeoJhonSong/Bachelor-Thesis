@@ -1,0 +1,11 @@
+main.pdf
+*.toc
+*.aux
+*.log
+*.out
+*.fls
+*.bcf
+main.run.xml
+*.fdb_latexmk
+main.synctex.gz
+__*

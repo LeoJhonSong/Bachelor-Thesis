@@ -1,0 +1,252 @@
+%Final Year Project Report Bachelor of Engineering
+% LaTeX Template
+
+%Glasgow College, UESTC
+
+%Arrangement Author: Huang Yifan & Zhuheng Song
+
+%Email: 2288862h@student.gla.ac.uk
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[
+    12pt, % The default document font size, options: 10pt, 11pt, 12pt
+    twoside, % Two side (alternating margins) for binding
+    % draft,  % speed up comile and show problems
+    % showframe, % Uncomment to show how the type block is set on the page
+]{article} % The class file specifying the document structure
+
+\usepackage[
+    a4paper,
+    inner=2.5cm,  % more margin for inner in case to bookbind
+    outer=2cm,
+    top=2cm,
+    bottom=2cm
+]{geometry}
+
+% set line spacing to 1.5
+\usepackage{setspace}
+\onehalfspacing{}
+% set no vertical space to lists
+\usepackage{enumitem}
+\setlist{itemsep=0mm}
+
+\usepackage[T1]{fontenc}  % extra fonts
+\usepackage[utf8]{inputenc}  % Required for inputting international characters
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{mathptmx}  % Use the Times font by default
+\usepackage[scaled]{helvet}  % helvetica for sanserif, scaled 95% by default
+\usepackage{amssymb}  % for math symbols
+
+
+\usepackage[figuresleft]{rotating}  % for figure rotation
+\usepackage{graphicx}  % inclusion of graphics files
+\graphicspath{{./}}
+\usepackage{import}
+
+\usepackage{tabularx}
+\usepackage{booktabs}  % for \toprule, \midrule, \bottomrule
+
+\usepackage[nottoc]{tocbibind}  % add LofF, LofT to TOC
+
+\usepackage[
+    backend=biber,
+    style=alphabetic,
+    citestyle=authoryear,
+    backref=true,
+    natbib=true,
+    maxcitenames=1,
+    maxbibnames=999,
+    sorting=ynt,
+]{biblatex}
+% set cite link to whole author-year
+\makeatletter
+    \let\abx@macro@citeOrig\abx@macro@cite{}
+    \renewbibmacro{cite}{\bibhyperref{\let\bibhyperref\relax\relax\abx@macro@citeOrig{}}}
+\makeatother{}
+% allow \citetitle{} to support hyperlink
+\DeclareCiteCommand{\citetitle}{\usebibmacro{prenote}}{
+    \ifciteindex{\indexfield{indextitle}}{}\printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}
+}{\multicitedelim}{\usebibmacro{postnote}}
+% add bibliography files
+\addbibresource{references.bib}
+
+\usepackage{listings}  % for code listing
+
+\usepackage[svgnames]{xcolor}  % colouring
+\definecolor{bleu_cite}{RGB}{34,111,212}  % pure blue: {0,0,128}, light blue:{80,135,208}
+
+\usepackage{tikz}  % used to draw the ball numbers
+\newcommand{\ballnumber}[1]{
+    \tikz[baseline=(myanchor.base)]
+    \node[circle,fill=.,inner sep=1pt](myanchor){\color{-.}\bfseries\footnotesize #1};
+}
+
+\usepackage{hyperref}  % keep hyperref to be loaded last
+\hypersetup{
+    colorlinks=true,
+    linkcolor=LightSlateGray,
+    % anchorcolor=black,
+    citecolor=bleu_cite,
+    % filecolor=cyan,
+    % menucolor=red,
+    % runcolor=cyan,
+    % urlcolor=magenta,
+    % allcolors=LightSlateGray,
+}  % set colors for different types of links
+% support list of symbols with bib
+\usepackage[symbols, nogroupskip, record]{glossaries-extra}  % place after hyperref
+\GlsXtrLoadResources[
+ src={Notations},  % entries in 'Notations.bib'
+ type=symbols,  % put these entries in the 'symbols' glossary
+ save-locations=false  % don't save locations
+]
+% enhance \ref
+\usepackage[nameinlink]{cleveref}  % place after any package related to the \label macro
+%----------------------------------------------------------------------------------------
+%    code listing styles
+%----------------------------------------------------------------------------------------
+\definecolor{codeGreen}{rgb}{0,0.6,0}
+\definecolor{bgcolor}{rgb}{0.95,0.95,0.95}
+
+\makeatletter
+\newcommand\language@yaml{yaml}
+\expandafter\expandafter\expandafter\lstdefinelanguage
+\expandafter{\language@yaml}{
+    backgroundcolor=\color{bgcolor},
+    keywords={true,false,null},
+    keywordstyle=\color{MediumPurple},
+    basicstyle=\ttfamily\footnotesize,
+    captionpos=b,
+    numbers=left,
+    numbersep=5pt,
+    tabsize=2,
+    comment=[l]{\#},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\ttfamily\color{codeGreen},
+    stringstyle=\ttfamily\color{brown},
+    morestring=[b]',
+    morestring=[b]",
+    moredelim=[l][\color{orange}]{\&},
+    moredelim=[l][\color{magenta}]{*},
+    moredelim=**[il][\color{black}{:}\color{codeGreen}]{:},  % switch to value style at :
+    literate =  {---}{{\ProcessThreeDashes}}3
+                {>}{{\textcolor{red}\textgreater}}1
+                {|}{{\textcolor{red}\textbar}}1
+                {\ -\ }{{\mdseries\ -\ }}3,
+}
+\lst@AddToHook{EveryLine}{\ifx\lst@language\language@yaml\YAMLkeystyle\fi}  % switch to key style at EOL
+\makeatother
+
+%----------------------------------------------------------------------------------------
+%    THESIS INFORMATION (NECESSARY)
+%----------------------------------------------------------------------------------------
+\newcommand{\thesistitle}{Autonomous Grasping Control of Soft Robotic System Based on Underwater Visual Tracking} % Your thesis title, this is used in the cover page, print it elsewhere with \thesistitle
+\newcommand{\GUID}{2357651S}% Your GUID, this is used in the cover page, print it elsewhere with \GUID
+\newcommand{\student}{Zhuheng~\textsc{Song}} % Your name, this is used in the title page and abstract, print it elsewhere with \student
+\newcommand{\firstsupervisor}{Li~\textsc{Wen}} % Your 1st supervisor's name, this is used in the cover page, print it elsewhere with \firstsupervisor. YOU NEED TO KEEP BLANK FOR MOODLE SUBMISSION BUT PUT THE NAME BEFORE HARDCOPY SUBMISSION.
+% \newcommand{\firstsupervisor}{\textcolor{red}{\tiny Keep blank before hardcopy submission}} % Your 1st supervisor's name, this is used in the cover page, print it elsewhere with \firstsupervisor. YOU NEED TO KEEP BLANK FOR MOODLE SUBMISSION BUT PUT THE NAME BEFORE HARDCOPY SUBMISSION.
+\newcommand{\secondsupervisor}{Masood~Ur~\textsc{Rehman}}% Your 2nd supervisor's name, this is used in the cover page, print it elsewhere with \secondsupervisor. YOU NEED TO KEEP BLANK FOR MOODLE SUBMISSION BUT PUT THE NAME BEFORE HARDCOPY SUBMISSION.
+% \newcommand{\secondsupervisor} {\textcolor{red}{\tiny Keep blank before hardcopy submission}}% Your 2nd supervisor's name, this is used in the cover page, print it elsewhere with \secondsupervisor. YOU NEED TO KEEP BLANK FOR MOODLE SUBMISSION BUT PUT THE NAME BEFORE HARDCOPY SUBMISSION.
+%----------------------------------------------------------------------------------------
+%    OTHER INFORMATION
+%----------------------------------------------------------------------------------------
+\newcommand{\degree}{Engineering} % Your degree name, this is used in the cover page and abstract, print it elsewhere with \degree
+\newcommand{\subject}{Electric & Electronic Engineering} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subject
+\newcommand{\keywords}{soft robotics,soft grasping, underwater grasping} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywords
+\newcommand{\university}{\href{https://www.uestc.edu.cn/}{UETSC}} % Your university's name and URL, this is used in the cover page and abstract, print it elsewhere with \university
+\newcommand{\department}{\href{http://www.gla.uestc.edu.cn/}{Glasgow College}} % Your department's name and URL, this is used in the cover page and abstract, print it elsewhere with \department
+%----------------------------------------------------------------------------------------
+%    ENVIRONMENTS
+%----------------------------------------------------------------------------------------
+\newenvironment{declaration}{
+    \newgeometry{left=2cm, right=2cm, top=2cm, bottom=2cm}
+    \section*{Coursework Declaration and Feedback Form}
+    \renewcommand*{\arraystretch}{1.3}
+    \addcontentsline{toc}{section}{Coursework Declaration and Feedback Form}
+}{\clearpage\restoregeometry}
+
+\renewenvironment{abstract}{
+    \section*{Abstract}
+    \bigskip
+    \addcontentsline{toc}{section}{Abstract}
+}{\clearpage}
+
+\newenvironment{acknowledgement}{
+    \section*{Acknowledgements}
+    \bigskip
+    \addcontentsline{toc}{section}{Acknowledgements}
+}{\clearpage}
+
+\AtBeginDocument{
+    \hypersetup{pdftitle=\thesistitle} % Set the PDF's title to your title
+    \hypersetup{pdfauthor=\student} % Set the PDF's author to your name
+    \hypersetup{pdfkeywords=\keywords} % Set the PDF's keywords to your keywords
+}
+
+\begin{document}
+%----------------------------------------------------------------------------------------
+%    COVER PAGE
+%----------------------------------------------------------------------------------------
+\pagestyle{plain}  % empty header, page number footer until the main content
+
+\include{Front/Cover.tex}
+%----------------------------------------------------------------------------------------
+%    DECLARATION PAGE
+%----------------------------------------------------------------------------------------
+\pagenumbering{roman}  % start to show page number in the roman style
+
+\include{Front/Declaration.tex}
+%----------------------------------------------------------------------------------------
+%    ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+\include{Front/Abstract.tex}
+%----------------------------------------------------------------------------------------
+%    ACKNOWLEDGEMENTS
+%----------------------------------------------------------------------------------------
+% \include{Front/Acknowledgement.tex}
+%----------------------------------------------------------------------------------------
+%    LIST OF CONTENTS
+%----------------------------------------------------------------------------------------
+\tableofcontents % Prints the main table of contents
+\pagebreak
+%----------------------------------------------------------------------------------------
+%    LIST OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+\listoffigures
+\listoftables
+\pagebreak
+%----------------------------------------------------------------------------------------
+%    LIST OF NOTATIONS
+%----------------------------------------------------------------------------------------
+\printunsrtglossary[type=symbols,style=long,title={List of Notations}]
+\pagebreak
+%----------------------------------------------------------------------------------------
+%    THESIS CONTENT - SECTIONS
+%----------------------------------------------------------------------------------------
+\pagestyle{headings} % Return the page headers back to the "thesis" style
+\pagenumbering{arabic}
+
+% Include the sections of the thesis as separate files from the sections folder
+% Uncomment the lines as you write the sections
+\include{Sections/Section1.tex}
+% \include{Sections/Section2.tex}
+\include{Sections/Section3.tex}
+\include{Sections/Section4.tex}
+\include{Sections/Section5.tex}
+\include{Sections/Section6.tex}
+%----------------------------------------------------------------------------------------
+%    BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+\printbibliography[heading=bibintoc]
+%----------------------------------------------------------------------------------------
+%    THESIS CONTENT - APPENDICES
+%----------------------------------------------------------------------------------------
+\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+% Include the appendices of the thesis as separate files from the Appendices folder
+\include{Appendices/Appendix.tex}  % Uncomment the lines as you write the Appendices
+%----------------------------------------------------------------------------------------
+\end{document}
